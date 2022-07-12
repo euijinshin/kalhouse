@@ -1,0 +1,95 @@
+const express = require('express');
+
+const app = express();
+
+app.use(express.json());
+
+var bodyParser = require('body-parser')
+
+app.use(bodyParser.urlencoded({extended: false}))
+
+var mysql = require('mysql');
+var db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password:'1234',
+    database:'person'
+});
+
+db.connect();
+
+
+app.get('/get', function(req, res){
+    
+         db.query(`SELECT * FROM info WHERE name =?`,[req.query.name],  function(err,result){
+            
+            res.send(result);
+            console.log('정보 전달');
+            
+     })
+       
+});
+
+app.get('/get/id', function(req, res){
+    
+    db.query(`SELECT * FROM info WHERE ID =?`,[req.query.id],  function(err,result){
+       
+       res.send(result);
+       console.log('정보 전달');
+       
+})
+  
+});
+
+ app.post('/post', function(req,res){
+
+ var users =[req.body.NAME, req.body.IMG, req.body.GENDER]
+    console.log(users);
+    
+    db.query(`INSERT INTO info(NAME, IMG, GENDER) VALUES(?, ?, ?);`,users, function(err, topics){
+        if(err){
+             console.log(err);
+             res.status(500).send('Internal Server Error');
+         }
+         console.log('정보 삽입');
+        res.send("success")
+        
+        /*db.query(`SELECT NAME, AGE, GENDER FROM info WHERE NAME='shin';`, (error, rows) =>{ 
+            console.log(rows);
+            console.log(rows[0]);
+            res.send(rows[0]);
+        });*/
+    })
+ })
+
+app.post('/post/room', function(req, res){
+    var room =[req.body.user_id, req.body.roomName, req.body.exitTime]
+    console.log(users);
+    db.query(`INSERT INTO room_info(user_id, roomName, exitTime) VALUES(?, ?, ?);`, room, function(err, result){
+        if(err){
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        }
+        console.log('정보 삽입');
+       res.send("success")
+    })
+ })
+
+ app.get('/get/room', function(req, res){
+    
+    db.query(`SELECT * FROM room_info INNER JOIN info ON room_info.user_id = info.ID
+    WHERE room_info.roomName = ?`,
+    [req.query.roomName],  function(err,result){
+       
+       res.send(result);
+       console.log('정보 전달');
+       
+})
+  
+});
+
+
+
+app.listen(80, ()=>{
+    console.log('포트번호 443서버접속')
+})

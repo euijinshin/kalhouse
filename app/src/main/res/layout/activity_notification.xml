@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/tab2Lin"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical">
+
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:text="Notification"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+</RelativeLayout>
+
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/rvNotification"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp"
+    android:layout_weight="1"
+    android:scrollbarFadeDuration="0"
+    android:scrollbarSize="5dp"
+    android:scrollbarThumbVertical="@android:color/darker_gray"
+    android:scrollbars="vertical">
+
+</androidx.recyclerview.widget.RecyclerView>
+
+
+</LinearLayout>
